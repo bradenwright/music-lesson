@@ -28,8 +28,8 @@ Link to actual lesson summaries as you complete each lesson:
 - Root-fifth-octave in G, C, D, A
 
 ### Songs
-- Dark Hollow
-- Nellie Kane
+- [Dark Hollow](../songs/dark-hollow/README.md)
+- [Nellie Kane](../songs/nellie-kane/README.md)
 
 ### Practice
 - Begin singing root names aloud with each chord change
@@ -41,8 +41,8 @@ Link to actual lesson summaries as you complete each lesson:
 **Focus**: Train your ear on I–IV–V progressions and start calling changes out loud.
 
 ### Songs
-- Going Down the Road Feeling Bad
-- I'll Fly Away
+- [Going Down the Road Feeling Bad](../songs/going-down-the-road-feeling-bad/README.md)
+- [I'll Fly Away](../songs/ill-fly-away/README.md)
 
 ### Practice
 - **"Call and sing"**: Teacher plays, you sing roots before playing
@@ -108,8 +108,8 @@ Notes    D   A   C   B   A   G
 - Experiment with combining 3-note walks + rhythmic embellishment
 
 ### Songs
-- Nellie Kane
-- Cold Rain and Snow
+- [Nellie Kane](../songs/nellie-kane/README.md)
+- [Cold Rain and Snow](../songs/cold-rain-and-snow/README.md)
 
 ### Jam Drill
 - 8 bars groove → 4 bars fill → repeat
@@ -128,8 +128,8 @@ Notes    D   A   C   B   A   G
 - You respond with an appropriate 3-note walk (scale or chromatic)
 
 ### Songs
-- Big River
-- Roll in My Sweet Baby's Arms
+- [Big River](../songs/big-river/README.md)
+- [Roll in My Sweet Baby's Arms](../songs/roll-in-my-sweet-babys-arms/README.md)
 
 ### Practice
 - Add singing: anticipate the next root vocally before playing it
@@ -145,7 +145,7 @@ Notes    D   A   C   B   A   G
 **Focus**: Full-song jamming, combining groove, fills, and ear.
 
 ### Practice
-- Play Dark Hollow and GDTRFB start-to-finish with 3-note transitions
+- Play [Dark Hollow](../songs/dark-hollow/README.md) and [Going Down the Road Feeling Bad](../songs/going-down-the-road-feeling-bad/README.md) start-to-finish with 3-note transitions
 - **"Blind jam" test**: Identify the key by ear and join confidently
 - Reflect on groove, tone, and consistency
 
@@ -158,13 +158,13 @@ Notes    D   A   C   B   A   G
 ## Song Pool
 
 All songs fit beautifully with 3-note walk phrasing:
-- Dark Hollow
-- Nellie Kane
-- Going Down the Road Feeling Bad
-- I'll Fly Away
-- Cold Rain and Snow
-- Big River
-- Roll in My Sweet Baby's Arms
+- [Dark Hollow](../songs/dark-hollow/README.md)
+- [Nellie Kane](../songs/nellie-kane/README.md)
+- [Going Down the Road Feeling Bad](../songs/going-down-the-road-feeling-bad/README.md)
+- [I'll Fly Away](../songs/ill-fly-away/README.md)
+- [Cold Rain and Snow](../songs/cold-rain-and-snow/README.md)
+- [Big River](../songs/big-river/README.md)
+- [Roll in My Sweet Baby's Arms](../songs/roll-in-my-sweet-babys-arms/README.md)
 
 ---
 

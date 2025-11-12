@@ -32,6 +32,15 @@ Structured lesson plans that span multiple sessions. Each plan is a complete cur
 
 Lesson plans can link to completed lesson summaries to track progress through the curriculum.
 
+### `songs/`
+Songs covered in lessons, organized by song name. Each song folder contains:
+- **Song information**: Details about the song, key, tempo, when it was covered
+- **Images**: Screenshots and photos of music notation, chord charts, or other visual materials
+- **GuitarPro files**: GuitarPro files (.gp, .gp3, .gp4, .gp5, .gpx files)
+- Links to relevant lesson summaries and lesson plans
+
+Songs can be linked from lesson summaries and lesson plans to track which songs were covered in each session.
+
 ## Workflow
 
 1. **Record Lesson**: Record the lesson session (via Zoom or other method)
@@ -39,8 +48,9 @@ Lesson plans can link to completed lesson summaries to track progress through th
 3. **Generate Summary**: Use AI to create a summary and extract key concepts
 4. **Store Summary**: Save summary and transcript in `lesson-summary/`
 5. **Link to Lesson Plan**: If the lesson is part of a structured lesson plan, add a link to the lesson summary in the plan's progress tracking section
-6. **Extract Knowledge**: Identify and extract reusable concepts for `lesson-library/`
-7. **Update Library**: Add new concepts to appropriate folders in `lesson-library/`
+6. **Add Songs**: For any songs covered, create or update song entries in `songs/` with notation images, GuitarPro files, and links to the lesson
+7. **Extract Knowledge**: Identify and extract reusable concepts for `lesson-library/`
+8. **Update Library**: Add new concepts to appropriate folders in `lesson-library/`
 
 ## Goals
 
