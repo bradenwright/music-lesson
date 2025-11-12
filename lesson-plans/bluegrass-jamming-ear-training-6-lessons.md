@@ -16,7 +16,7 @@ Link to actual lesson summaries as you complete each lesson:
 - **Lesson 5**: _[Link to lesson summary when completed]_
 - **Lesson 6**: _[Link to lesson summary when completed]_
 
-**Example**: `- **Lesson 1**: [2024-10-15](../lesson-summary/2024-10-15.md)`
+**Planning Session**: [2024-10-15](../lesson-summary/2024-10-15.md) | [GitHub](https://github.com/bradenwright/music-lesson/blob/dev/lesson-summary/2024-10-15.md)
 
 ---
 
