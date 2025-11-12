@@ -15,6 +15,12 @@ The ability to identify and play root notes by ear is fundamental to bass playin
 - Hum or sing the root notes as you play
 - Develops ability to hear and identify roots in context
 
+### Identifying I-IV-V Progressions
+- Practice identifying 1, 4, 5 chords by sound
+- Listen to music and call out chord changes to practice identifying I-IV-V progressions
+- Sing root names aloud before and during each chord change while practicing
+- Develops ability to hear chord progressions and anticipate changes
+
 ## Philosophy
 - Focus on pitch and tone rather than specific letter names
 - Knowing how to hum or play a scale by ear is more important than memorizing syllables or specific notes
@@ -26,5 +32,6 @@ The ability to identify and play root notes by ear is fundamental to bass playin
 - Key skill for jamming with other musicians
 
 ## Source
-Extracted from lesson on 2024-10-15
+- Extracted from lesson on 2024-10-15
+- Expanded in [Lesson 1 (2024-10-22)](../../lesson-summary/2024-10-22.md) with I-IV-V identification techniques
 

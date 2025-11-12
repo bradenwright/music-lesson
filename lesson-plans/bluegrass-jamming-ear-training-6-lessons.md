@@ -9,7 +9,7 @@ A comprehensive 6-lesson curriculum focusing on bluegrass bass playing, ear trai
 
 Link to actual lesson summaries as you complete each lesson:
 
-- **Lesson 1**: _[Link to lesson summary when completed]_
+- **Lesson 1**: [2024-10-22](../lesson-summary/2024-10-22.md)
 - **Lesson 2**: _[Link to lesson summary when completed]_
 - **Lesson 3**: _[Link to lesson summary when completed]_
 - **Lesson 4**: _[Link to lesson summary when completed]_
