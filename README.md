@@ -38,8 +38,9 @@ Lesson plans can link to completed lesson summaries to track progress through th
 2. **Transcribe**: Process the recording to generate a transcript
 3. **Generate Summary**: Use AI to create a summary and extract key concepts
 4. **Store Summary**: Save summary and transcript in `lesson-summary/`
-5. **Extract Knowledge**: Identify and extract reusable concepts for `lesson-library/`
-6. **Update Library**: Add new concepts to appropriate folders in `lesson-library/`
+5. **Link to Lesson Plan**: If the lesson is part of a structured lesson plan, add a link to the lesson summary in the plan's progress tracking section
+6. **Extract Knowledge**: Identify and extract reusable concepts for `lesson-library/`
+7. **Update Library**: Add new concepts to appropriate folders in `lesson-library/`
 
 ## Goals
 
