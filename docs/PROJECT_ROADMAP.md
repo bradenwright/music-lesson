@@ -37,45 +37,82 @@ Build a comprehensive system for tracking bass lessons, organizing music theory 
 ### Goals
 Make it easier to get lesson files (transcripts, recordings, images) into the system for AI processing. Also enable lesson plan generation through AI prompts.
 
-### Options to Explore
+### Current Workflow (Phase 2A)
 
-#### Option A: Web Frontend
-- **Description**: Simple web interface for uploading lesson files
-- **Features**:
-  - Upload transcript files
-  - Upload audio/video recordings
-  - Upload notation images
-  - Upload GuitarPro files
-  - Specify lesson date
-  - Generate lesson summary entry
-  - Download processed files or integrate with repo
-- **Pros**: User-friendly, visual interface
-- **Cons**: Requires frontend development, hosting
+**Status**: In use now
 
-#### Option B: CLI Tool / Script
-- **Description**: Command-line tool or script for processing lessons
-- **Features**:
-  - Accept file paths and date
-  - Process and create lesson summary structure
-  - Generate initial markdown files
-  - Prepare files for AI prompt
-- **Pros**: Simple, fast to build, no hosting needed
-- **Cons**: Less user-friendly, requires command-line knowledge
+**Process**:
+1. Teacher (Paul) emails lesson files to user (Braden)
+   - Transcripts
+   - Audio/video recordings
+   - Notation images
+   - GuitarPro files
+2. User downloads files manually
+3. User organizes and processes files with AI prompt
 
-#### Option C: Hybrid Approach
-- **Description**: Start with CLI/script, evolve to web frontend
-- **Features**: Best of both worlds, incremental development
+**Benefits**:
+- ✅ Simple, works immediately
+- ✅ No infrastructure needed
+- ✅ Teacher just needs to email
+- ✅ User has full control
 
-### Decision: TBD
-- Evaluate based on usage patterns and needs
-- Consider starting with Option B for speed, then Option A if needed
+**Limitations**:
+- ❌ Manual download required
+- ❌ Manual file organization
+- ❌ Not scalable for multiple students
+
+### Future Workflow (Phase 2B - Phase 3 or later)
+
+**Goal**: Simplify file upload for teacher, automate processing
+
+**Solution**: Simple web frontend + GCS integration
+
+**Architecture**:
+```
+[Teacher] → [Web Frontend] → [GCS Upload] → [GCS Bucket]
+                                              ↓
+[App] ← [Process from GCS] ← [GCS Bucket]
+```
+
+**Features**:
+- Simple web interface for teacher
+- Upload transcript files
+- Upload audio/video recordings
+- Upload notation images
+- Upload GuitarPro files
+- Specify lesson date/student
+- Files automatically uploaded to GCS (Google Cloud Storage)
+- App processes files directly from GCS
+- No manual download needed
+
+**Benefits**:
+- ✅ Teacher-friendly (just upload via web)
+- ✅ Automated file handling
+- ✅ Files stored in cloud (GCS)
+- ✅ App can process directly from GCS
+- ✅ Scalable for multiple students
+
+**Timeline**: Phase 3 or after (when automation pipeline is ready)
+
+**Technical Considerations**:
+- Web frontend (simple React/Next.js)
+- GCS bucket for file storage
+- App integration to read from GCS
+- File organization in GCS (by student, date, etc.)
+- Security/authentication for teacher access
 
 ### Deliverables
-- File upload/management solution
-- Integration with existing repo structure
-- Easy way to prepare files for AI processing
-- AI prompt interface for lesson plan generation
-- Simple web interface for creating lesson plans
+
+**Phase 2A (Current)**:
+- ✅ Manual email/download workflow
+- ✅ File organization process
+
+**Phase 2B (Future)**:
+- [ ] Simple web frontend for teacher
+- [ ] GCS integration
+- [ ] App processing from GCS
+- [ ] File organization in GCS
+- [ ] Teacher authentication/access
 
 ### Lesson Plan Generation (Phase 2.5)
 
@@ -110,32 +147,110 @@ Make it easier to get lesson files (transcripts, recordings, images) into the sy
 
 Rather than one monolithic AI system, use multiple specialized agents that each excel at specific tasks:
 
-1. **Lesson Summary Agent**
-   - Specialized in generating lesson summaries
-   - Understands lesson structure and format
-   - Extracts key topics, assignments, next steps
+1. **lesson-plan-agent**
+   - **Purpose**: Interactive prompt for teacher and student to use during live calls
+   - **Function**: Generates lesson plan (.md file) that can be refined
+   - **Use Case**: Teacher and student collaborate in real-time to create structured lesson plans
+   - **Output**: Creates/updates lesson plan markdown files in `lesson-plans/`
+   - **Features**: 
+     - Interactive conversation during lesson planning
+     - Real-time refinement and editing
+     - Structured lesson plan format
+     - Can reference existing lesson plans and templates
 
-2. **Knowledge Extraction Agent**
-   - Identifies reusable concepts from lessons
-   - Categorizes knowledge appropriately
-   - Creates/updates library entries
-   - Maintains cross-references
+2. **lesson-summary-agent**
+   - **Purpose**: Process lesson transcripts and uploaded files to create lesson summaries
+   - **Function**: 
+     - Takes transcript and various uploaded files
+     - Creates content in `lesson-summary/` folder
+     - Organizes uploaded files appropriately
+     - Adds links to relevant areas (lesson plans, songs, library entries)
+   - **Use Case**: After a lesson, process transcript and files to generate summary
+   - **Output**: 
+     - Lesson summary markdown file (YYYY-MM-DD.md)
+     - Organized file structure
+     - Links to lesson plans, songs, library entries
+   - **Features**:
+     - Extracts key topics, assignments, next steps
+     - Links to relevant lesson plans
+     - Links to songs covered
+     - Links to knowledge extracted to library
 
-3. **Song Processing Agent**
-   - Extracts song information from lessons
-   - Creates/updates song entries
-   - Links songs to lessons and lesson plans
-   - Handles version information
+3. **lesson-library-agent**
+   - **Purpose**: Generate permanent, organized information in the lesson library
+   - **Function**: 
+     - Identifies reusable concepts from lessons
+     - Categorizes knowledge appropriately (scales-modes, harmony-theory, techniques, etc.)
+     - Creates/updates library entries
+     - Maintains cross-references
+   - **Use Case**: Extract lasting knowledge from lessons for future reference
+   - **Output**: Creates/updates markdown files in `lesson-library/` organized by topic
+   - **Features**:
+     - More organized and permanent than lesson summaries
+     - Searchable knowledge base
+     - Cross-references between concepts
+     - Links back to source lessons
+   - **Future Evolution (TBD)**:
+     - May call specialized topic agents (e.g., scales-agent, music-theory-agent)
+     - Or may delegate to separate agents for each topic area
+     - Architecture decision: orchestrator pattern vs. specialized agents
+     - Will be determined based on complexity and needs
 
-4. **Lesson Plan Tracking Agent**
-   - Updates lesson plan progress
-   - Links lessons to plans
-   - Tracks curriculum completion
+4. **lesson-song-agent** (May be part of lesson-summary-agent)
+   - **Purpose**: Create and manage song entries with context and files
+   - **Function**:
+     - Creates song folders in `songs/`
+     - Adds context: BPM, key, version, artist, etc.
+     - Organizes files: GP files, images (notation screenshots/photos)
+     - Links songs to lessons and lesson plans
+   - **Use Case**: When songs are covered in lessons, create/update song entries
+   - **Output**: 
+     - Song folder structure
+     - Song README.md with metadata
+     - Organized GP files and images
+     - Links to lessons where covered
+   - **Features**:
+     - Extracts song information from lessons
+     - Handles version information (e.g., Grateful Dead version, Hot Rize version)
+     - Manages file organization (images/, guitarpro/ folders)
+   - **Note**: May be integrated into lesson-summary-agent, or separate for specialized song processing
 
-5. **Link Validation Agent**
-   - Ensures all links are correct
-   - Validates file paths
-   - Checks for broken references
+### Agent Responsibilities Summary
+
+**lesson-plan-agent**:
+- Interactive prompt for live lesson planning sessions
+- Teacher and student collaborate in real-time
+- Generates structured lesson plan markdown files
+- Can reference existing plans and templates
+
+**lesson-summary-agent**:
+- Primary processor for lesson transcripts and files
+- Creates lesson summary markdown files
+- Organizes uploaded files (transcripts, recordings, images)
+- Adds links to lesson plans, songs, and library entries
+- May include song processing functionality (or delegates to lesson-song-agent)
+
+**lesson-library-agent**:
+- Extracts permanent, reusable knowledge from lessons
+- Organizes by topic (scales-modes, harmony-theory, techniques, etc.)
+- Creates searchable knowledge base entries
+- Maintains cross-references between concepts
+- **Future (TBD)**: May call specialized topic agents or delegate to separate agents
+  - Potential specialized agents: scales-agent, music-theory-agent, techniques-agent, etc.
+  - Architecture decision pending based on complexity and needs
+
+**lesson-song-agent**:
+- Specialized song processing (may be part of lesson-summary-agent)
+- Creates song folder structure
+- Extracts metadata (BPM, key, version, artist)
+- Organizes GP files and images
+- Links songs to lessons and lesson plans
+
+**Decision Point**: Whether lesson-song-agent is separate or integrated into lesson-summary-agent depends on:
+- Complexity of song processing requirements
+- Whether song processing needs specialized logic
+- Whether it's simpler to handle songs as part of summary processing
+- Can start integrated, extract later if needed
 
 ### Architecture Options
 
@@ -166,15 +281,428 @@ Rather than one monolithic AI system, use multiple specialized agents that each 
 
 ### Recommended Approach
 
-**Phase 3A: Proof of Concept**
-- Start with n8n or simple script-based pipeline
-- Validate agent specialization concept
-- Test with real lesson data
+**Phase 3A: Manual Processing (Current)**
+- **Status**: In use now
+- **Process**: Manually copy/paste AI_PROMPT_INSTRUCTIONS.md into each prompt
+- **Purpose**: Validate workflow, refine instructions, process lessons
+- **Next**: Move to agent framework when ready
 
-**Phase 3B: Production System**
-- Move to Kubernetes-based agents if needed for scale
-- Use NATS for agent communication
-- Deploy specialized agents as microservices
+**Phase 3B: Agent Framework Integration**
+- **Process**: Use existing agent framework
+- **Architecture**:
+  ```
+  [Agent Framework]
+      ↓ (sends request)
+  [cursor-agent] (requires Cursor IDE running locally)
+      ↓ (processes with ai-instructions + commands)
+  [File Operations]
+      ↓ (sends ack)
+  [Agent Framework]
+  ```
+- **Key Details**:
+  - Agent has `ai-instructions` section (contains AI_PROMPT_INSTRUCTIONS.md content)
+  - Agent has `command` section (file operations, git, etc.)
+  - cursor-agent processes and executes
+  - Returns acknowledgment when complete
+- **Benefits**:
+  - Automated processing
+  - No manual copy/paste needed
+  - AI_PROMPT_INSTRUCTIONS.md embedded in agent config
+  - Leverages existing infrastructure
+- **Limitation**: Requires Cursor IDE running locally
+
+**Phase 3C: LLM/MCP Server Replacement**
+- **Goal**: Remove dependency on Cursor IDE
+- **Options**:
+  - **Direct LLM API**: Replace cursor-agent with direct OpenAI/Anthropic calls
+  - **MCP Server**: Use Model Context Protocol server for LLM access
+  - **Local LLM**: Run models locally (Ollama, vLLM, etc.)
+- **Architecture**:
+  ```
+  [Agent Framework]
+      ↓ (sends request)
+  [LLM/MCP Server] → [OpenAI/Anthropic/Local LLM]
+      ↓ (processes with instructions)
+  [File Operations via Agent]
+      ↓ (sends ack)
+  [Agent Framework]
+  ```
+- **Benefits**:
+  - No Cursor IDE dependency
+  - Can deploy independently
+  - Flexible LLM provider choices
+  - Can run in Docker Compose or GKE
+
+**Phase 3D: NATS-Based Microservices (Future)**
+- **Architecture**: Full microservices with NATS (see detailed section below)
+- **Deployment**: Docker Compose locally, GKE for production
+- **When**: If need to scale or want specialized agents
+
+---
+
+## AI Agent Implementation Details
+
+### Architecture Options
+
+#### Option A: NATS-Based Microservices (Recommended)
+**Description**: Each agent is a separate microservice communicating via NATS
+
+**Architecture**:
+```
+[Orchestrator/API Gateway]
+    ↓
+[NATS Message Bus]
+    ↓
+┌─────────────────────────────────────┐
+│  [lesson-plan-agent]                 │
+│  [lesson-summary-agent]              │
+│  [lesson-library-agent]              │
+│  [lesson-song-agent]                 │
+└─────────────────────────────────────┘
+```
+
+**Communication Pattern**:
+- **NATS Subjects**: Each agent subscribes to specific subjects
+  - `lesson.plan.create` - Lesson plan creation requests
+  - `lesson.summary.process` - Lesson summary processing requests
+  - `lesson.library.extract` - Knowledge extraction to library requests
+  - `lesson.song.process` - Song processing requests
+- **Request/Reply Pattern**: Orchestrator sends request, agent replies with result
+- **Pub/Sub Pattern**: For notifications and status updates
+
+**Benefits**:
+- ✅ NATS experience already exists (Docker and GKE)
+- ✅ Lightweight and fast
+- ✅ Good for microservices architecture
+- ✅ Easy to add/remove agents
+- ✅ Works well in both local and cloud environments
+
+#### Option B: n8n Workflow Orchestration
+**Description**: Use n8n for visual workflow building, agents as nodes
+
+**Architecture**:
+- n8n workflows define the pipeline
+- Each agent can be a custom n8n node or external service
+- Can integrate with NATS for agent communication
+
+**Benefits**:
+- Visual workflow builder
+- Good for non-technical users
+- Many integrations available
+
+**Considerations**:
+- May be overkill for specialized agents
+- Less flexible than pure microservices
+
+#### Option C: Hybrid: n8n + NATS Agents
+**Description**: n8n for orchestration, NATS for agent-to-agent communication
+
+**Architecture**:
+- n8n handles initial workflow and file upload
+- NATS handles agent communication and coordination
+- Best of both worlds
+
+### Deployment Options
+
+#### Local Development: Docker Compose
+
+**Structure**:
+```yaml
+services:
+  nats:
+    image: nats:latest
+    ports:
+      - "4222:4222"
+  
+  orchestrator:
+    build: ./orchestrator
+    depends_on:
+      - nats
+    environment:
+      - NATS_URL=nats://nats:4222
+  
+  lesson-plan-agent:
+    build: ./agents/lesson-plan
+    depends_on:
+      - nats
+    environment:
+      - NATS_URL=nats://nats:4222
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+  
+  lesson-summary-agent:
+    build: ./agents/lesson-summary
+    depends_on:
+      - nats
+    environment:
+      - NATS_URL=nats://nats:4222
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+  
+  lesson-library-agent:
+    build: ./agents/lesson-library
+    depends_on:
+      - nats
+    environment:
+      - NATS_URL=nats://nats:4222
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+  
+  lesson-song-agent:
+    build: ./agents/lesson-song
+    depends_on:
+      - nats
+    environment:
+      - NATS_URL=nats://nats:4222
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    # Note: May be integrated into lesson-summary-agent instead
+```
+
+**Benefits**:
+- ✅ Easy local development
+- ✅ Matches production architecture
+- ✅ Can test full pipeline locally
+- ✅ Fast iteration cycle
+
+#### Production: Google Kubernetes Engine (GKE)
+
+**Structure**:
+- Each agent as a Kubernetes Deployment
+- NATS as a StatefulSet or managed service
+- ConfigMaps for configuration
+- Secrets for API keys
+- Service mesh (optional) for advanced routing
+
+**Deployment Strategy**:
+- **Development**: Docker Compose locally
+- **Staging**: GKE cluster (small, for testing)
+- **Production**: GKE cluster (scaled, high availability)
+
+**Benefits**:
+- ✅ Scalable and production-ready
+- ✅ Can scale agents independently
+- ✅ High availability
+- ✅ Easy to add new agents
+- ✅ Matches existing GKE experience
+
+### Agent Implementation Approaches
+
+#### Approach 1: LLM API Wrappers (Recommended Start)
+**Description**: Agents are wrappers around LLM APIs (OpenAI, Anthropic, etc.)
+
+**How it works**:
+- Each agent has specialized prompts
+- Agent receives task via NATS
+- Calls LLM API with context and prompt
+- Processes response and sends result back
+
+**Pros**:
+- ✅ Fast to implement
+- ✅ No training required initially
+- ✅ Easy to iterate on prompts
+- ✅ Can switch LLM providers easily
+
+**Cons**:
+- ❌ API costs per request
+- ❌ Latency depends on API
+- ❌ Less control over model behavior
+
+#### Approach 2: Local LLM Models
+**Description**: Run open-source LLMs locally (Llama, Mistral, etc.)
+
+**How it works**:
+- Deploy LLM models in containers
+- Agents call local model endpoints
+- No external API dependencies
+
+**Pros**:
+- ✅ No API costs
+- ✅ Data privacy (stays local)
+- ✅ No rate limits
+- ✅ Full control
+
+**Cons**:
+- ❌ Requires GPU resources
+- ❌ More complex setup
+- ❌ May need model optimization
+- ❌ Higher infrastructure costs
+
+#### Approach 3: Hybrid (Recommended Long-term)
+**Description**: Use API for development, local models for production
+
+**Benefits**:
+- Start with APIs for speed
+- Move to local models when needed
+- Best of both worlds
+
+### Training & Refining Agents/LLMs
+
+#### Level 1: Prompt Engineering (Start Here)
+**What it is**: Crafting effective prompts to get desired outputs
+
+**Techniques**:
+- **Few-shot learning**: Provide examples in prompt
+- **Chain of thought**: Ask model to think step-by-step
+- **Role-based prompts**: "You are an expert music teacher..."
+- **Structured outputs**: Request specific formats (JSON, markdown)
+- **Context injection**: Include relevant files/content in prompt
+
+**For this project**:
+- Use AI_PROMPT_INSTRUCTIONS.md as base prompt
+- Add examples of good outputs
+- Include context from lesson plans, library, etc.
+- Refine based on actual outputs
+
+**Tools**:
+- Prompt testing frameworks
+- A/B testing different prompts
+- Output validation scripts
+
+#### Level 2: Retrieval-Augmented Generation (RAG)
+**What it is**: Enhance prompts with relevant context from knowledge base
+
+**How it works**:
+1. Agent receives task
+2. Searches lesson-library, lesson-plans, songs for relevant context
+3. Includes relevant context in prompt
+4. LLM generates response with better context
+
+**For this project**:
+- lesson-summary-agent: Pull previous lesson summaries, lesson plan context
+- lesson-library-agent: Check existing library entries to avoid duplicates
+- lesson-song-agent: Check existing song entries for consistency
+- lesson-plan-agent: Reference existing lesson plans and templates
+
+**Implementation**:
+- Vector database (Pinecone, Weaviate, or local Chroma)
+- Embedding models (OpenAI, local)
+- Semantic search over markdown files
+
+#### Level 3: Fine-Tuning
+**What it is**: Train model on specific data to improve performance
+
+**When to use**:
+- When prompt engineering isn't enough
+- Need consistent formatting
+- Domain-specific knowledge required
+- Want to reduce API costs
+
+**Process**:
+1. Collect training data (good examples of desired outputs)
+2. Format as training examples
+3. Fine-tune base model
+4. Deploy fine-tuned model
+
+**For this project**:
+- Could fine-tune on lesson summaries
+- Train on knowledge extraction examples
+- Customize for music education domain
+
+**Considerations**:
+- Requires training data (need many examples)
+- Training costs
+- Model hosting
+- May need to retrain as data grows
+
+#### Level 4: Custom Training (Advanced)
+**What it is**: Train models from scratch or heavily modify
+
+**When to use**:
+- Very specific domain requirements
+- Need complete control
+- Have large dataset
+- Want to optimize for specific tasks
+
+**For this project**:
+- Probably overkill initially
+- Consider if system grows significantly
+
+### Recommended Learning Path
+
+**Phase 1: Prompt Engineering (Now)**
+- Start with well-crafted prompts
+- Use AI_PROMPT_INSTRUCTIONS.md
+- Iterate based on results
+- Build up examples and patterns
+
+**Phase 2: RAG Integration (After Phase 3A)**
+- Add semantic search to agents
+- Enhance prompts with relevant context
+- Improve accuracy and consistency
+
+**Phase 3: Fine-Tuning (If Needed)**
+- If prompt engineering + RAG isn't sufficient
+- Collect training data from good outputs
+- Fine-tune for specific tasks
+
+**Phase 4: Local Models (If Needed)**
+- If API costs become too high
+- If privacy becomes critical
+- If need more control
+
+### Implementation Recommendations
+
+**Phase 3A: Manual (Current)**
+1. Copy/paste AI_PROMPT_INSTRUCTIONS.md into each prompt
+2. Process lessons manually
+3. Refine instructions based on results
+4. Validate workflow
+
+**Phase 3B: Agent Framework**
+1. Create agent in existing framework
+2. Embed AI_PROMPT_INSTRUCTIONS.md in agent's ai-instructions section
+3. Configure commands for file operations
+4. Test with cursor-agent (Cursor IDE running)
+5. Process lessons automatically
+6. Refine agent configuration
+
+**Phase 3C: LLM/MCP Replacement**
+1. Set up LLM API or MCP server
+2. Replace cursor-agent call with new LLM endpoint
+3. Test with same agent framework
+4. Remove Cursor IDE dependency
+5. Deploy independently (Docker Compose or GKE)
+
+**Phase 3D: NATS Microservices (Future)**
+1. Build specialized agents as microservices
+2. Use NATS for communication
+3. Deploy locally with Docker Compose
+4. Scale to GKE when needed
+5. Add RAG for context enhancement
+6. Consider fine-tuning if needed
+
+### Tools & Technologies
+
+**NATS**:
+- Official NATS Docker images
+- NATS clients (Go, Python, Node.js, etc.)
+- NATS JetStream for persistence (if needed)
+
+**LLM APIs**:
+- OpenAI (GPT-4, GPT-3.5)
+- Anthropic (Claude)
+- Google (Gemini)
+- Local: Ollama, vLLM, etc.
+
+**Vector Databases** (for RAG):
+- Pinecone (managed)
+- Weaviate (self-hosted or managed)
+- Chroma (local, simple)
+- Qdrant (self-hosted)
+
+**Development**:
+- Docker Compose for local
+- Kubernetes for production
+- Python or Node.js for agents (both have good NATS and LLM libraries)
+
+**Agent Framework** (Phase 3B):
+- Existing agent framework (already built)
+- cursor-agent integration (requires Cursor IDE)
+- ai-instructions and command sections
+- Request/acknowledgment pattern
+
+**MCP (Model Context Protocol)** (Phase 3C):
+- Standardized LLM access
+- Tool/context management
+- Works with OpenAI, Anthropic, local models
+- Can replace cursor-agent dependency
 
 ### Agent Communication Pattern
 
@@ -186,14 +714,21 @@ Rather than one monolithic AI system, use multiple specialized agents that each 
 [NATS Message Bus]
     ↓
 ┌─────────────────────────────────────┐
-│  [Lesson Summary Agent]              │
-│  [Knowledge Extraction Agent]        │
-│  [Song Processing Agent]              │
-│  [Lesson Plan Tracking Agent]        │
-│  [Link Validation Agent]             │
+│  [lesson-plan-agent]                 │
+│  [lesson-summary-agent]              │
+│  [lesson-library-agent]              │
+│    └─→ [scales-agent] (TBD)          │
+│    └─→ [music-theory-agent] (TBD)   │
+│    └─→ [techniques-agent] (TBD)      │
+│  [lesson-song-agent]                 │
 └─────────────────────────────────────┘
     ↓
 [File System / Git Repo]
+
+Note: Specialized topic agents (scales, music-theory, etc.) are TBD
+- May be called by lesson-library-agent
+- Or may be separate agents that lesson-library-agent delegates to
+- Architecture decision pending
 ```
 
 ### Deliverables

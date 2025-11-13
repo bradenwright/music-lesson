@@ -140,22 +140,44 @@ This project aims to create a comprehensive system for tracking bass lessons, or
 ### Phase 2: File Management
 **Timeline**: After Phase 1 complete
 
+**Current Workflow (Phase 2A)**:
+- **Status**: In use now
+- **Process**: 
+  - Teacher (Paul) emails lesson files (transcripts, recordings, images, GP files)
+  - User (Braden) downloads files manually
+  - User processes files with AI prompt
+- **Purpose**: Simple, works for now, minimal setup required
+- **Limitation**: Manual download and organization
+
+**Future Workflow (Phase 2B - Phase 3 or later)**:
+- **Goal**: Make it easier for teacher to upload files
+- **Solution**: Simple web frontend
+- **Features**:
+  - Teacher uploads files via web interface
+  - Files automatically uploaded to GCS (Google Cloud Storage)
+  - App processes files from GCS
+  - No manual download needed
+- **Benefits**:
+  - Teacher-friendly interface
+  - Automated file handling
+  - Files stored in cloud (GCS)
+  - App can process directly from GCS
+- **Timeline**: Phase 3 or after (when automation is ready)
+
 **Tasks**:
-- [ ] Evaluate file upload options
-- [ ] Choose approach (web vs CLI)
-- [ ] Build file upload solution
-- [ ] Integrate with existing structure
-- [ ] Test with real lessons
+- [x] Phase 2A: Manual email/download workflow (current)
+- [ ] Phase 2B: Build simple web frontend for teacher
+- [ ] Phase 2B: Integrate GCS upload
+- [ ] Phase 2B: Update app to process from GCS
 - [ ] Create AI prompt for lesson plan generation
 - [ ] Build simple web interface for lesson plan creation
 
 **Success Criteria**:
-- Easy to upload lesson files
-- Files organized correctly
-- Ready for AI processing
-- Reduces manual steps by 50%+
-- Can generate lesson plans via AI prompt
-- Simple web interface for lesson plan creation
+- Phase 2A: Manual workflow works reliably (current)
+- Phase 2B: Teacher can upload files easily via web interface
+- Phase 2B: Files automatically stored in GCS
+- Phase 2B: App processes files from GCS automatically
+- Reduces manual steps significantly
 
 ### Phase 2.5: Lesson Plan Generation
 **Timeline**: Parallel to or after Phase 2
@@ -179,20 +201,64 @@ This project aims to create a comprehensive system for tracking bass lessons, or
 ### Phase 3: AI Automation
 **Timeline**: After Phase 2 complete
 
+**Implementation Progression**:
+
+#### Phase 3A: Manual Processing (Current)
+- **Process**: Manually copy/paste AI_PROMPT_INSTRUCTIONS.md into each prompt
+- **Workflow**: Process each lesson manually with AI prompt
+- **Status**: In use now
+- **Purpose**: Validate workflow and refine instructions
+
+#### Phase 3B: Agent Framework Integration
+- **Process**: Use existing agent framework
+- **Architecture**: 
+  - Agent sends request to cursor-agent (requires Cursor IDE running locally)
+  - cursor-agent processes using AI instructions and commands
+  - Agent receives acknowledgment when complete
+- **Key Change**: AI_PROMPT_INSTRUCTIONS.md content becomes part of agent's ai-instructions section
+  - No longer need to manually copy/paste
+  - Instructions embedded in agent configuration
+- **Benefits**: 
+  - Automated processing
+  - Consistent instruction application
+  - Still uses Cursor IDE infrastructure
+- **Limitation**: Requires Cursor IDE running locally
+
+#### Phase 3C: LLM/MCP Server Replacement
+- **Process**: Replace cursor-agent with direct LLM call or MCP server
+- **Options**:
+  - Direct LLM API calls (OpenAI, Anthropic, etc.)
+  - MCP (Model Context Protocol) server
+  - Local LLM models
+- **Benefits**:
+  - No dependency on Cursor IDE
+  - Can deploy independently
+  - More flexible LLM provider choices
+- **Future**: Can evolve to NATS-based microservices (Phase 3D)
+
+#### Phase 3D: NATS-Based Microservices (Future)
+- **Architecture**: NATS-based microservices (see PROJECT_ROADMAP.md for details)
+- **Deployment**: Docker Compose for local, GKE for production
+- **Agent Type**: Specialized agents for each task
+- **Training**: Prompt engineering, RAG, fine-tuning as needed
+
 **Tasks**:
-- [ ] Research agent architectures
-- [ ] Choose communication pattern (NATS)
-- [ ] Build proof of concept
-- [ ] Create specialized agents
-- [ ] Integrate with file management
-- [ ] Test end-to-end
-- [ ] Deploy to production
+- [x] Phase 3A: Manual processing (current)
+- [ ] Phase 3B: Integrate with existing agent framework
+  - [ ] Build lesson-plan-agent (interactive prompt for teacher/student)
+  - [ ] Build lesson-summary-agent (process transcripts and files)
+  - [ ] Build lesson-library-agent (extract permanent knowledge)
+    - [ ] TBD: May call specialized topic agents (scales, music-theory, etc.) or delegate to separate agents
+  - [ ] Build lesson-song-agent (or integrate into lesson-summary-agent)
+- [ ] Phase 3C: Replace cursor-agent with LLM/MCP server
+- [ ] Phase 3D: Build NATS-based microservices (optional future)
 
 **Success Criteria**:
-- Fully automated lesson processing
+- Phase 3B: Automated processing via agent framework
+- Phase 3C: Independent of Cursor IDE
+- Phase 3D: Scalable microservices architecture
 - Agents produce accurate results
 - Minimal manual intervention
-- System scales to multiple lessons
 
 ### Phase 4: Advanced Features
 **Timeline**: After Phase 3 stable
@@ -333,11 +399,17 @@ This project aims to create a comprehensive system for tracking bass lessons, or
 - Gather feedback from instructor and students
 - Refine based on real-world usage
 
+**File Management**:
+- **Current**: Teacher emails files, user downloads manually (Phase 2A)
+- **Future**: Simple web frontend for teacher to upload to GCS (Phase 2B, Phase 3 or later)
+- Files processed from GCS by app
+
 **Considerations**:
 - Need user isolation (separate folders/repos per student?)
 - Instructor access to all student data
 - Privacy and data organization
 - Workflow adjustments for instructor perspective
+- File upload workflow (email now, web frontend later)
 
 **Success Criteria**:
 - System works for multiple students
