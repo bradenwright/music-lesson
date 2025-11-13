@@ -146,12 +146,35 @@ This project aims to create a comprehensive system for tracking bass lessons, or
 - [ ] Build file upload solution
 - [ ] Integrate with existing structure
 - [ ] Test with real lessons
+- [ ] Create AI prompt for lesson plan generation
+- [ ] Build simple web interface for lesson plan creation
 
 **Success Criteria**:
 - Easy to upload lesson files
 - Files organized correctly
 - Ready for AI processing
 - Reduces manual steps by 50%+
+- Can generate lesson plans via AI prompt
+- Simple web interface for lesson plan creation
+
+### Phase 2.5: Lesson Plan Generation
+**Timeline**: Parallel to or after Phase 2
+
+**Initial Approach: AI Prompt Interface**
+- **Description**: Web interface with AI prompt to help generate lesson plan files
+- **Features**:
+  - Input form for lesson plan details (topic, duration, objectives, etc.)
+  - AI prompt that generates structured lesson plan markdown
+  - Outputs lesson plan file in correct format
+  - Can download or save directly to repo
+- **Use Case**: Instructor describes what they want to teach, AI generates structured lesson plan
+
+**Future Integration (Phase 4)**:
+- Pull from global catalog/library when building teacher's interface
+- Access to all existing lesson plans as templates
+- Access to global song library with charts and GP files
+- Reuse existing content while creating new plans
+- Smart suggestions based on previous lessons and student progress
 
 ### Phase 3: AI Automation
 **Timeline**: After Phase 2 complete
@@ -176,10 +199,115 @@ This project aims to create a comprehensive system for tracking bass lessons, or
 
 **Tasks**:
 - [ ] Add search functionality
-- [ ] Audio/video analysis
+- [ ] Audio/video analysis (see details below)
 - [ ] Practice tracking integration
 - [ ] Progress visualization
 - [ ] Other enhancements as needed
+
+### Phase 5: Audio/Video Recording & Analysis (Future)
+**Timeline**: Long-term, after core system is stable
+
+**Current State**: 
+- Currently based on transcripts for lesson processing
+- Manual transcription from recordings
+
+**Future Vision: Audio/Video Recording Integration**
+
+**Recording Tool: farplay.io**
+- **Paid version features**:
+  - Records video of lessons
+  - Separate audio tracks for each participant
+  - Ability to identify who's talking (speaker separation)
+  - Separate audio track for bass instrument
+  - Video recording for technique analysis
+
+**Potential Use Cases**:
+
+1. **Audio Alignment Analysis**
+   - Compare student's bass playing with GuitarPro files
+   - Analyze how well student plays along with backing tracks
+   - Measure timing accuracy and rhythm alignment
+   - Identify areas where student is ahead/behind the beat
+
+2. **Technique Analysis from Video**
+   - Analyze hand positioning and finger placement
+   - Review posture and instrument positioning
+   - Identify technique issues or improvements
+   - Compare technique across lessons to track progress
+   - Frame-by-frame analysis of specific techniques
+
+3. **Multi-Track Audio Analysis**
+   - Separate audio tracks allow for:
+     - Isolating bass audio for detailed analysis
+     - Comparing instructor's playing with student's
+     - Analyzing timing and rhythm separately
+     - Frequency analysis of bass tone and sound quality
+
+4. **Enhanced Transcription**
+   - Use separate audio tracks for better transcription accuracy
+   - Speaker identification (instructor vs. student)
+   - Better handling of overlapping speech
+   - Music detection and separation from speech
+
+5. **Progress Tracking**
+   - Visual comparison of technique over time
+   - Audio quality improvements tracking
+   - Rhythm and timing accuracy metrics
+   - Practice effectiveness measurement
+
+6. **Interactive Ear Training Sessions (Gamified)**
+   - **Training Mode**: Tones/notes are played, student tries to mimic on bass
+   - **Real-time Feedback**: System analyzes if student played correct note/pitch
+   - **Gamification Elements**: 
+     - Score/points for accuracy
+     - Progress tracking
+     - Difficulty levels
+     - Achievement system
+   - **Multiple Reference Types** (can be toggled/changed):
+     - **Notation**: Standard music notation display
+     - **Color per Note**: Visual color coding for each note
+     - **Tab**: Tablature display
+     - **No Visual**: Audio only (pure ear training)
+   - **Adaptive Learning**:
+     - System can change which reference is shown
+     - Gradually reduce visual aids as ear improves
+     - Customize difficulty based on student progress
+   - **Use Cases**:
+     - Work on pitch recognition
+     - Interval training
+     - Scale recognition
+     - Chord tone identification
+     - Root note identification (building on existing ear training concepts)
+
+**Technical Considerations**:
+- Integration with farplay.io API or file export
+- Storage of video and multi-track audio files
+- Processing pipeline for audio/video analysis
+- AI models for technique analysis
+- Audio alignment algorithms
+- Privacy and data management for video content
+- **Ear Training System**:
+  - Real-time audio analysis for pitch detection
+  - Note recognition algorithms
+  - Comparison between reference tone and student's playing
+  - Visual rendering (notation, colors, tabs)
+  - Gamification engine (scoring, progress, achievements)
+  - Adaptive difficulty system
+  - Integration with existing ear training concepts from library
+
+**Challenges**:
+- Large file sizes for video content
+- Processing power for video analysis
+- Privacy considerations with video recordings
+- Cost of storage and processing
+- Determining most valuable use cases before building
+
+**Success Criteria**:
+- Seamless recording integration
+- Valuable insights from audio/video analysis
+- Actionable feedback for student improvement
+- Efficient storage and processing
+- Clear use cases validated
 
 ## Rollout Strategy
 
@@ -245,8 +373,16 @@ This project aims to create a comprehensive system for tracking bass lessons, or
 - **Global Lesson Library**: Instructor's repository of all lessons across students
 - **Template System**: Create lesson plans that can be customized per student
 - **Song Library**: Shared song database with student-specific notes
+  - Reusable charts and GuitarPro files
+  - Song metadata (key, tempo, difficulty, etc.)
+  - Link to existing charts/GP files when creating new lesson plans
 - **Knowledge Base**: Global music theory library with student-specific applications
 - **Customization**: Ability to modify shared templates (change songs, adjust difficulty, etc.) for individual students
+- **Lesson Plan Generation Interface**: 
+  - Web-based interface for creating lesson plans
+  - Pulls from global catalog/library for suggestions
+  - Can reuse existing songs with their charts and GP files
+  - AI-assisted generation with context from existing lessons
 
 **Example Use Case**:
 - Instructor has a "Bluegrass Basics" lesson plan template
@@ -261,6 +397,12 @@ This project aims to create a comprehensive system for tracking bass lessons, or
 - Shared vs. student-specific content
 - Version control for templates
 - Easy customization workflow
+- **Lesson Plan Generation**:
+  - Web interface for creating lesson plans
+  - AI prompt system that generates structured lesson plans
+  - Integration with global catalog/library
+  - Song selection interface with reusable charts and GP files
+  - Template selection and customization
 
 **Success Criteria**:
 - Instructor can create reusable lesson templates
@@ -336,4 +478,5 @@ This project aims to create a comprehensive system for tracking bass lessons, or
 - Current focus: Get manual process perfect before automating
 - Future vision: Fully automated pipeline with specialized AI agents
 - Rollout: Start small (single user), expand gradually, build global library for instructor
+- Audio/Video: Currently transcript-based, future integration with farplay.io for rich media analysis
 
