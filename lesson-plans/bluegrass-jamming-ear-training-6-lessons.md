@@ -7,6 +7,8 @@ A comprehensive 6-lesson curriculum focusing on bluegrass bass playing, ear trai
 
 ## Progress Tracking
 
+**Planning Session**: [2024-10-15](../lesson-summary/2024-10-15.md) | [GitHub](https://github.com/bradenwright/music-lesson/blob/dev/lesson-summary/2024-10-15.md)
+
 Link to actual lesson summaries as you complete each lesson:
 
 - **Lesson 1**: [2024-10-22](../lesson-summary/2024-10-22.md)
@@ -15,8 +17,6 @@ Link to actual lesson summaries as you complete each lesson:
 - **Lesson 4**: _[Link to lesson summary when completed]_
 - **Lesson 5**: _[Link to lesson summary when completed]_
 - **Lesson 6**: _[Link to lesson summary when completed]_
-
-**Planning Session**: [2024-10-15](../lesson-summary/2024-10-15.md) | [GitHub](https://github.com/bradenwright/music-lesson/blob/dev/lesson-summary/2024-10-15.md)
 
 ---
 
