@@ -52,14 +52,11 @@ Songs can be linked from lesson summaries and lesson plans to track which songs 
 7. **Extract Knowledge**: Identify and extract reusable concepts for `lesson-library/`
 8. **Update Library**: Add new concepts to appropriate folders in `lesson-library/`
 
-## AI Processing Instructions
+## Documentation
 
-For detailed instructions on how to process lesson transcripts with AI, see [docs/AI_PROMPT_INSTRUCTIONS.md](docs/AI_PROMPT_INSTRUCTIONS.md). This document provides:
-- Step-by-step workflow for processing transcripts
-- Context gathering requirements (review lesson plans first)
-- Guidelines for extracting knowledge to the library
-- Linking conventions and file naming standards
-- Quality checklists
+- **[AI Processing Instructions](docs/AI_PROMPT_INSTRUCTIONS.md)**: Step-by-step workflow for processing lesson transcripts with AI
+- **[Project Roadmap](docs/PROJECT_ROADMAP.md)**: Long-term vision and phases for automation
+- **[Project Plan](docs/PROJECT_PLAN.md)**: Detailed implementation plan and current status
 
 ## Goals
 
